@@ -10,14 +10,16 @@ import java.text.DateFormat;
 import java.util.Date;
 
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Paint;
 import android.content.ContentValues;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 
 public class MemopadActivity extends Activity{
-	
+	Paint paint;
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState){
@@ -93,7 +95,7 @@ public boolean onCreateOptionsMenu(Menu menu) {
 
 @Override
 public boolean onOptionsItemSelected(MenuItem item) {
-	// TODO 自動生成されたメソッド・スタブ
+	
 	EditText et = (EditText) this.findViewById(R.id.editText1);
 	switch(item.getItemId()){
 	case R.id.menu_save:
@@ -105,6 +107,18 @@ public boolean onOptionsItemSelected(MenuItem item) {
 		break;
 	case R.id.menu_new:
 		et.setText("");
+		break;
+	case R.id.menu_color_change:
+		final String[] items = getResources().getStringArray(R.array.ColorName);
+		final int[] colors = getResources().getIntArray(R.array.Color);
+		AlertDialog.Builder ab = new AlertDialog.Builder(this);
+		ab.setTitle(R.string.menu_color_change);
+		ab.setItems(items, new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int item) {
+				paint.setColor(colors[item]);
+				}
+		});
+		ab.show();
 		break;
 	}
 	return super.onOptionsItemSelected(item);
